@@ -1,0 +1,93 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>course.b1</groupId>
+	<artifactId>restclient</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>jar</packaging>
+
+	<name>restclient</name>
+	<url>http://maven.apache.org</url>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<!-- Source and target java set to Java 9 -->
+		<java.version>9</java.version>
+		<!-- We need to explicitly set the version of this plugin as earlier releases 
+			have a bug when using Java 9 and 10: https://issues.apache.org/jira/browse/SUREFIRE-1439. 
+			This plugin is used for running tests with Maven. -->
+		<maven-surefire-plugin.version>2.21.0</maven-surefire-plugin.version>
+	</properties>
+
+	<!-- We want to inherit the Maven configuration from spring-boot-starter-parent 
+		as it will provide default configuration for Maven plugins and dependency 
+		versions -->
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.0.2.RELEASE</version>
+		<relativePath />
+	</parent>
+
+	<dependencies>
+		<!-- Core Spring Boot -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter</artifactId>
+		</dependency>
+		<!-- We need this for the RestTemplate - the class we use to talk to the 
+			REST API -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+		</dependency>
+
+		<!-- Needed for JSON/Java conversions -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+		</dependency>
+
+		<!-- Needed for Spring classes such as Page when using JSON/Java conversion -->
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-commons</artifactId>
+		</dependency>
+
+		<!-- This is used for logging the HTTP traffic for debugging and troubleshooting -->
+		<dependency>
+			<groupId>org.hobsoft.spring</groupId>
+			<artifactId>spring-rest-template-logger</artifactId>
+			<version>2.0.0</version>
+		</dependency>
+	</dependencies>
+
+	<build>
+	    <resources>
+			<resource>
+				<directory>src/main/resources</directory>
+			</resource>
+
+		</resources>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<goals>
+							<!-- This execution goal allows the application to be built using 
+								'mvnw package' command. Without it you can still build the application using 
+								the 'mvnw package spring-boot:repackage' -->
+							<goal>repackage</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+		</plugins>
+	</build>
+</project>
